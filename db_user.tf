@@ -3,6 +3,7 @@ resource "postgresql_role" "backup_user" {
   name     = var.name
   login    = true
   password = random_password.backup_user.result
+  roles    = ["pg_read_all_data"]
 }
 
 resource "postgresql_grant" "backup_connect" {

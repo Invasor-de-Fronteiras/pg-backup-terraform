@@ -31,6 +31,11 @@ variable "ssm_db_pass_path" {
   default = "/arca/kelbi-pg/backup-user/db-password"
 }
 
+variable "db_credentials_ssm_path" {
+  type    = string
+  default = "/arca/kelbi/db/credentials"
+}
+
 variable "aws_region" {
   type    = string
   default = "us-east-1"
