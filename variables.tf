@@ -1,6 +1,5 @@
 variable "name" {
-  type    = string
-  default = "kelbi-pg"
+  type = string
 }
 
 variable "kubernetes" {
@@ -9,11 +8,6 @@ variable "kubernetes" {
     config_context = string
     config_path    = string
   })
-  default = {
-    namespace      = "kelbi-pg"
-    config_context = "arca"
-    config_path    = "~/.kube/config.bk"
-  }
 }
 
 variable "pg_backup_image" {
@@ -22,18 +16,15 @@ variable "pg_backup_image" {
 }
 
 variable "db_name" {
-  type    = string
-  default = "kelbi"
+  type = string
 }
 
 variable "ssm_db_pass_path" {
-  type    = string
-  default = "/arca/kelbi-pg/backup-user/db-password"
+  type = string
 }
 
 variable "db_credentials_ssm_path" {
-  type    = string
-  default = "/arca/kelbi/db/credentials"
+  type = string
 }
 
 variable "aws_region" {
@@ -42,6 +33,5 @@ variable "aws_region" {
 }
 
 variable "db_host" {
-  type    = string
-  default = "kelbi-pg-root-app-kelbi-pg-dev.kelbi-pg.svc.cluster.local"
+  type = string
 }
