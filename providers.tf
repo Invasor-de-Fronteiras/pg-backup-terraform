@@ -1,5 +1,10 @@
 terraform {
+  required_version = ">=1.14"
   required_providers {
+    random = {
+      source  = "hashicorp/random"
+      version = "3.8.1"
+    }
     aws = {
       source  = "hashicorp/aws"
       version = "6.33.0"
@@ -31,7 +36,7 @@ data "aws_ssm_parameter" "env" {
 locals {
   db_credentials = {
     for line in split("\n", data.aws_ssm_parameter.env.value) :
-    split("=", line)[0] => split("=", line)[1]
+    split("=", line)[0] => join("=", slice(split("=", line), 1, length(split("=", line))))
   }
 }
 

@@ -36,9 +36,3 @@ resource "postgresql_grant" "backup_sequences" {
   object_type = "sequence"
   privileges  = ["SELECT"]
 }
-
-# Para PG 14+
-resource "postgresql_grant_role" "backup_read_all" {
-  role       = postgresql_role.backup_user.name
-  grant_role = "pg_read_all_data"
-}

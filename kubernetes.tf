@@ -4,7 +4,7 @@ resource "kubernetes_secret_v1" "credentials" {
     namespace = var.kubernetes.namespace
   }
 
-  data = {
+  data = merge({
     AWS_ACCESS_KEY_ID     = aws_iam_access_key.backup.id
     AWS_SECRET_ACCESS_KEY = aws_iam_access_key.backup.secret
     PG_DB                 = var.db_name
@@ -14,7 +14,7 @@ resource "kubernetes_secret_v1" "credentials" {
     PGPASSWORD            = random_password.backup_user.result
     S3_BUCKET             = aws_s3_bucket.backup.bucket
     S3_REGION             = var.aws_region
-  }
+  }, var.additional_environments)
 }
 
 resource "kubernetes_cron_job_v1" "pg_backup" {
@@ -25,16 +25,16 @@ resource "kubernetes_cron_job_v1" "pg_backup" {
 
   spec {
     concurrency_policy            = "Replace"
-    failed_jobs_history_limit     = 1
-    schedule                      = "@daily"
-    starting_deadline_seconds     = 10
+    failed_jobs_history_limit     = 3
+    schedule                      = var.schedule
+    starting_deadline_seconds     = 300
     successful_jobs_history_limit = 10
 
     job_template {
       metadata {}
       spec {
         backoff_limit              = 2
-        ttl_seconds_after_finished = 10
+        ttl_seconds_after_finished = 600
         template {
           metadata {}
           spec {
